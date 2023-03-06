@@ -2,6 +2,9 @@
 
 class App
 {
+    private $controller = 'Home';
+    private $method = 'index';
+
     private function splitURL()
     {
         // to avoid passing an empty url to get route: replace by home
@@ -18,14 +21,18 @@ class App
         // requested page
         $URL = $this->splitURL();
         // find the file to be loaded
-        $fileName = "../app/controllers/" . ucfirst($URL[0]) . ".php";
-        if (file_exists($fileName)) {
-            //require $fileName;
+        $filename = "../app/controllers/" . ucfirst($URL[0]) . ".php";
+        if (file_exists($filename)) {
+            require $filename;
+            $this->controller = ucfirst($URL[0]);
         } else {
-            $fileName = "../app/controllers/" .  "_404.php";
-            //require $fileName;
+            $filename = "../app/controllers/_404.php";
+            require $filename;
+            $this->controller = "_404";
         }
-        require $fileName;
+
+        $controller = new $this->controller();
+        call_user_func_array([$controller, $this->method], []); //'a' => 'something', 'b' => 'something else'
     }
 
 }

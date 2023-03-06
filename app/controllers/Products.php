@@ -1,4 +1,11 @@
 <?php
 // controller should be able to load a view
 
-echo "Products Controller";
+class Products extends Controller
+{
+    public function index()
+    {
+        //echo "This is the Products Controller";
+        $this->view('Products');
+    }
+}
